@@ -151,11 +151,13 @@
    			                    </div>
                                 <div class="tab-pane fade" id="activities-example">
                                     <div class="row">
-<!--                                         <div class="col-lg-8 col-lg-offset-2">
-                                            <div id="dropSection" style="display: block;">
-                                                <div class="dropdown">
-                                                    <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" >Choose an activity <b class="caret"></b></a>
-                                                      <ul class="dropdown-menu scrollable-menu" role="menu">
+                                       <div class="col-lg-8 col-lg-offset-2">
+                                            <div id="dropSection" style="display: block;" class="btn-group" data-toggle="buttons">
+                                                <div class="btn-group">
+                                                    <label id="drop1" class="dropdown dropdown-toggle" data-toggle="dropdown" class="dropdown-toggle" data-toggle="dropdown">
+                                                        <span id="text"> Choose an activiy </span><span class="caret"></span>
+                                                    </label>
+                                                      <ul class="dropdown-menu scrollable-menu" id="divNewNotifications" role="menu">
                                                         <li><a>Squat</a></li>
                                                         <li><a>Leg press</a></li>
                                                         <li><a>Lunge</a></li>
@@ -172,35 +174,29 @@
                                                         <li><a>Pull-up</a></li>
                                                     </ul>
                                                 </div> 
-                                                <input type="text" class="form-control" placeholder="Amount of time">
-                                                <button class="btn btn-primary" type="button" style="margin-top: 2%;">Add</button>
+                                                <input type="text" class="form-control" placeholder="Minutes" id="minActivity">
+                                                <button class="btn btn-primary" type="button" style="margin-top: 2%;" onclick="validateMinutes()">
+                                                    Add
+                                                </button>
                                             </div>
                                             <br>
-                                            <a id="button" onclick="showHideDiv('item');showHideDiv('dropSection');"> Add a new activity</a>
-                                                <div id="item" style="display: none;">
-                                                     <div class="input-group text-align:center">
-                                                        <input id="newActivityInput" type="text" class="form-control" placeholder="New Activity">
-                                                        <input id="caloriesInput" type="text" class="form-control" placeholder="Calories per hour">
-                                                        <button class="btn btn-primary" type="button" style="margin-top: 2%;" onclick="clearInput('newActivityInput');clearInput('caloriesInput');alert('Thank you! You entered the information! ');location.reload();">Create Activity</button>
+                                            </div>
+                                        </div>
+                                            <div class="col-lg-8 col-lg-offset-2" style="margin-top: 2%;">
+                                                <a id="button" onclick="showHideDiv('item');showHideDiv('dropSection');">
+                                                 Add a new activity
+                                                 </a>
+                                                    <div id="item" style="display: none;">
+                                                         <div class="input-group text-align:center">
+                                                            <input id="newActivityInput" type="text" class="form-control" placeholder="New Activity">
+                                                            <input id="caloriesInput" type="text" class="form-control" placeholder="Calories per hour">
+                                                            <button class="btn btn-primary" type="button" style="margin-top: 2%;" onclick="validateCreateActivity()">Create Activity</button>
+                                                    </div>
                                                 </div>
-                                        </div>
-                                    </div> -->
-
-                                    <div class="btn-group" data-toggle="buttons">
-
-                                        <div class="btn-group">
-                                            <label class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                                                <span id="text"> More Options </span><span class="caret"></span>
-                                            </label>
-                                            <ul class="dropdown-menu" id="divNewNotifications">
-                                                <li><a class="my_data_flag" id="three"> THREE </a></li>
-                                                <li><a class="my_data_flag" id="four"> FOUR </a></li>
-                                            </ul>
-                                        </div>
+                                            </div>
                                     </div>
 
 
-			                     </div>
 
 			                 </div>
 			        </div>
@@ -328,7 +324,7 @@
         function validateWater()
         {
             var water = document.getElementById("amountWater").value;
-            if(isNaN(water))
+            if(isNaN(water) || water == "")
             {
                 alert("Number of glasses of water is not valid!");
                 clearInput('amountWater');
@@ -340,6 +336,39 @@
                 clearInput('datepicker2');
                 var result = "You have " + water + " glasses of water!";
                 alert(result);
+            }
+            
+        }
+        function validateMinutes()
+        {
+            var minActivity = document.getElementById("minActivity").value;
+            if(isNaN(minActivity) || minActivity == "")
+            {
+                alert("Minutes is not valid!");
+                clearInput('minActivity');
+                return;
+            }
+            else{
+                clearInput('minActivity');
+                var result = "You burned out " + minActivity*(Math.floor(Math.random() * 6 + 1)) + " calories!";
+                alert(result);
+            }
+            
+        }
+        function validateCreateActivity()
+        {
+            var caloriesInput = document.getElementById("caloriesInput").value;
+            if(isNaN(caloriesInput) || caloriesInput == "")
+            {
+                alert("Calories entered is not valid!");
+                clearInput('caloriesInput');
+                return;
+            }
+            else{
+                clearInput('newActivityInput');
+                clearInput('caloriesInput');
+                alert('You just added a new activity!');
+                location.reload();    
             }
             
         }
