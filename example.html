@@ -114,17 +114,21 @@
                                         <div class="col-lg-8 col-lg-offset-2">
                                             <h4> Please enter the information of your sleep</h4>
                                             <div class="input-group text-align:center">
-                                              <input id="bedtimeInput" type="text" class="form-control" placeholder="Bed time">
+                                              <input id="bedtimeInput" class="form-control" placeholder="Bed time" type='text'>
                                               <input id="wakeupInput" type="text" class="form-control" placeholder="Wakeup time">
                                               <input type="text" class="form-control" placeholder="Date" id="datepicker1">
                                             </div>
                                             <div>
-                                                <button class="btn btn-primary" type="button" style="margin-top: 2%;" onclick="clearInput('bedtimeInput');clearInput('wakeupInput');clearInput('datepicker1');alert('Thank you! You entered the information! ');">Done</button>
+                                                <button class="btn btn-primary" type="button" style="margin-top: 2%;" onclick="valid()">Done</button>
                                             </div>
                                         </div>
                                         <br>
                                         <br>
                                     </div>
+                                    <div class="col-lg-8 col-lg-offset-2">
+                                        <p id="sleepTimeResult" style="display:none;"></p>
+                                    </div>
+
 			                    </div>
 			                      
 
@@ -133,7 +137,7 @@
                                         <div class="col-lg-8 col-lg-offset-2">
                                             <h4> Please enter the information of drinking water</h4>
                                             <div class="input-group text-align:center">
-                                              <input id="amountWater" type="text" class="form-control" placeholder="Amount of water">
+                                              <input id="amountWater" type="text" class="form-control" placeholder="Glasses of water">
                   
                                               <input type="text" class="form-control" placeholder="Date" id="datepicker2">
                                             </div>
@@ -147,7 +151,7 @@
    			                    </div>
                                 <div class="tab-pane fade" id="activities-example">
                                     <div class="row">
-                                        <div class="col-lg-8 col-lg-offset-2">
+<!--                                         <div class="col-lg-8 col-lg-offset-2">
                                             <div id="dropSection" style="display: block;">
                                                 <div class="dropdown">
                                                     <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" >Choose an activity <b class="caret"></b></a>
@@ -180,7 +184,22 @@
                                                         <button class="btn btn-primary" type="button" style="margin-top: 2%;" onclick="clearInput('newActivityInput');clearInput('caloriesInput');alert('Thank you! You entered the information! ');location.reload();">Create Activity</button>
                                                 </div>
                                         </div>
+                                    </div> -->
+
+                                    <div class="btn-group" data-toggle="buttons">
+
+                                        <div class="btn-group">
+                                            <label class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                                <span id="text"> More Options </span><span class="caret"></span>
+                                            </label>
+                                            <ul class="dropdown-menu" id="divNewNotifications">
+                                                <li><a class="my_data_flag" id="three"> THREE </a></li>
+                                                <li><a class="my_data_flag" id="four"> FOUR </a></li>
+                                            </ul>
+                                        </div>
                                     </div>
+
+
 			                     </div>
 
 			                 </div>
@@ -240,7 +259,6 @@
     <script src="js/clean-blog.min.js"></script>
 
     <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $( function() {
@@ -260,9 +278,59 @@
         function clearInput(id){
             var e = document.getElementById(id).value = "";
         }
-    </script>
+        function validateTime(a) {
+            re = /^\d{1,2}:\d{2}([ap]m)?$/;
+            if(a != "" && a.match(re))
+                return true;
+        }
+        function msToTime(s) {
+          var ms = s % 1000;
+          s = (s - ms) / 1000;
+          var secs = s % 60;
+          s = (s - secs) / 60;
+          var mins = s % 60;
+          var hrs = (s - mins) / 60;
 
-    
+          return hrs + ':' + mins;
+        }
+        function valid() {
+            var wakeup = document.getElementById("wakeupInput").value;
+            var sleep = document.getElementById("bedtimeInput").value;
+            if(validateTime(wakeup) && validateTime(sleep))
+            {
+                clearInput('bedtimeInput');
+                clearInput('wakeupInput');
+                clearInput('datepicker1');
+                wakeupHour = wakeup.substr(0,wakeup.indexOf(':'));
+                wakeupMin = wakeup.substr(wakeup.indexOf(':')+1);
+                sleepHour = sleep.substr(0,wakeup.indexOf(':'));
+                sleepMin = sleep.substr(wakeup.indexOf(':')+1);
+                wakeup = new Date('1','1','1999',wakeupHour,wakeupMin);
+                sleep = new Date('1','1','1999',sleepHour,sleepMin);
+                sleepTime = msToTime(wakeup-sleep);
+                var result = "Your sleeping time is " + sleepTime + " hour(s).";
+                alert(result);
+                // document.getElementById("sleepTimeResult").innerHTML = result;
+                showHideDiv("sleepTimeResult");
+            }
+            else {
+                if(!validateTime(wakeup))
+                {
+                    clearInput('wakeupInput');
+                    alert('Wakeup time is not valid');
+                } 
+                else {
+                    clearInput('bedtimeInput');
+                    alert('Bed time is not valid');
+                }       
+            }
+        }
+        $('.dropdown-toggle').dropdown();
+            $('#divNewNotifications li > a').click(function(){
+            if (this.text !== ' More Options ')
+                $('#text').text($(this).html());
+            });
+    </script>
 </body>
 
 </html>
