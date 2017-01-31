@@ -313,11 +313,11 @@
                 if(!validateTime(wakeup))
                 {
                     clearInput('wakeupInput');
-                    alert('Wakeup time is not valid');
+                    alert('Wakeup time is not valid. It should be hh:mm!');
                 } 
                 else {
                     clearInput('bedtimeInput');
-                    alert('Bed time is not valid');
+                    alert('Bed time is not valid. It should be hh:mm!');
                 }       
             }
         }
@@ -352,6 +352,7 @@
                 clearInput('minActivity');
                 var result = "You burned out " + minActivity*(Math.floor(Math.random() * 6 + 1)) + " calories!";
                 alert(result);
+                location.reload(); 
             }
             
         }
