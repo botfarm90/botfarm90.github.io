@@ -142,7 +142,7 @@
                                               <input type="text" class="form-control" placeholder="Date" id="datepicker2">
                                             </div>
                                             <div>
-                                                <button class="btn btn-success" type="button" style="margin-top: 2%;" onclick="clearInput('amountWater');clearInput('datepicker2');alert('Thank you! You entered the information! ');">Done</button>
+                                                <button class="btn btn-success" type="button" style="margin-top: 2%;" onclick="validateWater()">Done</button>
                                             </div>
                                         </div>
                                         <br>
@@ -324,6 +324,24 @@
                     alert('Bed time is not valid');
                 }       
             }
+        }
+        function validateWater()
+        {
+            var water = document.getElementById("amountWater").value;
+            if(isNaN(water))
+            {
+                alert("Number of glasses of water is not valid!");
+                clearInput('amountWater');
+                clearInput('datepicker2');
+                return;
+            }
+            else{
+                clearInput('amountWater');
+                clearInput('datepicker2');
+                var result = "You have " + water + " glasses of water!";
+                alert(result);
+            }
+            
         }
         $('.dropdown-toggle').dropdown();
             $('#divNewNotifications li > a').click(function(){
