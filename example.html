@@ -303,6 +303,11 @@
                 sleepMin = sleep.substr(wakeup.indexOf(':')+1);
                 wakeup = new Date('1','1','1999',wakeupHour,wakeupMin);
                 sleep = new Date('1','1','1999',sleepHour,sleepMin);
+                if(wakeup < sleep)
+                {
+                    alert("Wakeup time is smaller than bedtime?");
+                    return;
+                }
                 sleepTime = msToTime(wakeup-sleep);
                 var result = "Your sleeping time is " + sleepTime + " hour(s).";
                 alert(result);
